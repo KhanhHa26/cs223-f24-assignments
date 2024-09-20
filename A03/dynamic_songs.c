@@ -78,5 +78,6 @@ int main() {
     struct song curSong = songs[i];
     printf("\n %-2d) %-25s artist: %-20s duration: %-15d D: %-15g E: %-15g T: %-15g V: %-15g |", i, curSong.title, curSong.artist, curSong.duration, curSong.dance, curSong.energy, curSong.tempo, curSong.valance);
   }
+  free(songs);
   return 0;
 }
