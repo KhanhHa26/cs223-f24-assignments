@@ -1,3 +1,9 @@
+/*----------------------------------------------
+* Author: Khanh Ha Nguyen
+* Date: 11/1/2024
+* Description: This program implements a simple shell
+---------------------------------------------*/
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -8,11 +14,11 @@
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 #define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
 
 int main() {
   pid_t pid;
   int status;
-  //pid = fork();
   char* line;
 
   while (1) {

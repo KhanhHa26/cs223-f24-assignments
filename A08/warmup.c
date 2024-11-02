@@ -1,3 +1,9 @@
+/*----------------------------------------------
+* Author: Khanh Ha Nguyen
+* Date: 11/1/2024
+* Description: This program spawns processes according to the following diagram.
+---------------------------------------------*/
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
