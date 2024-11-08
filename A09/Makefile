@@ -1,5 +1,5 @@
 CC=gcc
-SOURCES=single_mandelbrot multi_mandelbrot
+SOURCES=thread_mandelbrot single_mandelbrot
 FILES := $(subst .c,,$(SOURCES))
 FLAGS=-g -Wall -Wvla -Werror -Wno-unused-variable -Wno-unused-but-set-variable
 
@@ -11,4 +11,3 @@ all: $(FILES)
 
 clean:
 	rm -rf $(FILES)
-
