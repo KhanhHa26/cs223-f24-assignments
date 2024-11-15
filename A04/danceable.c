@@ -73,8 +73,7 @@ struct node* removeSong(struct node* head, struct song* song) {
         head = current->next;
       } else {
         prev->next = current->next;
-      }
-      free(current);      
+      }      
       break;
     }
     prev = current;
@@ -83,7 +82,6 @@ struct node* removeSong(struct node* head, struct song* song) {
   return head;
 }
 
-//Finding the song with the highest danceability
 struct song findMaxSong(struct node* head) {
   struct node* current = head;
   struct song tempMaxDance = head->val;  // Initialize a temporary song struct
@@ -93,18 +91,7 @@ struct song findMaxSong(struct node* head) {
     }
     current = current->next;  
   }
-  free(current);
   return tempMaxDance;
-}
-
-//Clean the linked list
-void cleanList(struct node* head) {
-  struct node* current = head;
-  while (current != NULL) {
-    struct node* nextNode = current->next;
-    free(current);
-    current = current->next;
-  }
 }
 
 //Main method
@@ -121,7 +108,7 @@ int main() {
   char buffer[100];
   fgets(buffer, sizeof(buffer), infile);
   struct node* head = NULL;
-  struct song maxDance = {"", "", 0, 0, 0, 0, 0};
+  struct song maxDance;
   int totalSongs = 0;
 
   //Create struct song for every line of the file
@@ -142,9 +129,9 @@ int main() {
     //Keeping track of the song with max dance
     token = strtok(NULL, ",");
     currentSong.dance = atof(token);
-    //if (currentSong.dance > maxDance.dance) {
-      //maxDance = currentSong;
-    //}
+    if (currentSong.dance > maxDance.dance) {
+      maxDance = currentSong;
+    }
 
     token = strtok(NULL, ",");
     currentSong.energy = atof(token);
@@ -172,19 +159,15 @@ int main() {
     if (userInput == 'd') {
       if (totalSongs > 0) {
         totalSongs -= 1;
+        printSong(maxDance);
+        head = removeSong(head, &maxDance);
         if (head != NULL)
           maxDance = findMaxSong(head);
-	printSong(maxDance);
-        head = removeSong(head, &maxDance);
       }
     } else {
-        break;
+      break;
     }
   }
-
-  if (head != NULL) {
-    cleanList(head);
-  }
+  free(head);
   return 0;
 }
-

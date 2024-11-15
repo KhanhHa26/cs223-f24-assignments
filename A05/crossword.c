@@ -10,7 +10,6 @@
 int main(int argc, char* argv[]) {
   if (argc < 3) {
     printf("Usage: %s <word1> <word2>\n", argv[0]);
-    return 1;
   } 
 
   char* word1 = argv[1];  // First input word
@@ -64,4 +63,3 @@ int main(int argc, char* argv[]) {
   free(arr);
   return 0;
 }
-

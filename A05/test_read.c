@@ -8,8 +8,8 @@
 #include "read_ppm.h"
 
 int main() {
-  int w;
-  int h;
+  int w = 4;
+  int h = 4;
   struct ppm_pixel* pixels = read_ppm("feep-raw.ppm", &w, &h);
   printf("Testing file feep-raw.ppm read: %d %d\n", w, h);
   // todo: print out the grid of pixels
@@ -24,5 +24,4 @@ int main() {
   free(pixels);
   return 0;
 }
-
 

@@ -10,8 +10,8 @@
 #include "write_ppm.h"
 
 int main(int argc, char** argv) {
-  int w;
-  int h;
+  int w = 4;
+  int h = 4;
   struct ppm_pixel* pixels = read_ppm("feep-raw.ppm", &w, &h);
   printf("Testing file feep-raw.ppm write: %d %d\n", w, h);
 
@@ -27,4 +27,3 @@ int main(int argc, char** argv) {
   free(pixels);
   return 0;
 }
-

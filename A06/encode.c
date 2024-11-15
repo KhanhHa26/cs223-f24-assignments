@@ -31,42 +31,32 @@ int main(int argc, char** argv) {
   scanf("%s", user_input);
 
   int message_length = strlen(user_input);
-  if (message_length > max_chars) {
-    printf("Error: Message too long to fit in the image.\n");
-    free(pixels);
-    return 1;
-  }
-
-  unsigned char mask = 0b1; 
-  unsigned char bit;
-
-  for (int i = 0; i < max_chars * 8; i++) {
-    //Extract current bit from phrase to encode it
-    if (i >= strlen(user_input) * 8){
-      bit = 0;
-    } else {
-      bit = (user_input[i / 8] >> (7 - i % 8)) & 0b1;
+    if (message_length > max_chars) {
+        printf("Error: Message too long to fit in the image.\n");
+        free(pixels);
+        return 1;
     }
-    //Set new color value by updating the LSB
-    ((unsigned char*)pixels)[i] = (((unsigned char*)pixels)[i] & ~mask) | bit;
-  }
 
-  char output_filename[256];
-  strcpy(output_filename, argv[1]);
+    unsigned char mask = 0b1; 
+    unsigned char bit;
 
-  if (output_filename == NULL) {
-    printf("No file output");
-    return 1;
-  }
+    for (int i = 0; i < max_chars * 8; i++) {
+      //Extract current bit from phrase to encode it
+      bit = (user_input[i / 8] >> (7 - i % 8)) & 0b1;
+      
+      //Set new color value by updating the LSB
+      ((unsigned char*)pixels)[i] = (((unsigned char*)pixels)[i] & ~mask) | bit;
+    }
 
-  char *dot = strrchr(output_filename, '.');
-  strcpy(dot, "-encoded.ppm");
-  write_ppm(output_filename, pixels, width, height);
+    char output_filename[256];
+    strcpy(output_filename, argv[1]);
+    char *dot = strrchr(output_filename, '.');
+    strcpy(dot, "-encoded.ppm");
+    write_ppm(output_filename, pixels, width, height);
 
-  printf("Writing file %s\n", output_filename);
-  free(pixels);
-  free(user_input);
+    printf("Writing file %s\n", output_filename);
+    free(pixels);
+    free(user_input);
   return 0;
 }
-
 
