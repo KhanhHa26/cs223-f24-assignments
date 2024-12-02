@@ -14,7 +14,7 @@ char file_names[256][256];
 char* dependencies[256][256];
 int dep_counts[256];
 int file_counts = 0;
-struct tree_node* root = NULL; // Global root of the tree
+struct tree_node* root = NULL;
 
 
 struct thread_data {
@@ -25,10 +25,10 @@ struct thread_data {
 };
 
 char* extract_dependency(char* line) {
-    // Find the opening and closing characters for the dependency
-    char* start = strchr(line, '"'); // For dependencies enclosed in double quotes
+    //Find the opening and closing characters for the dependency
+    char* start = strchr(line, '"'); //For dependencies enclosed in double quotes
     if (!start) {
-        start = strchr(line, '<'); // For dependencies enclosed in angle brackets
+        start = strchr(line, '<'); //For dependencies enclosed in angle brackets
     }
 
     char* end = strchr(line, '"');
@@ -55,11 +55,7 @@ char* extract_dependency(char* line) {
 
 void add_file_dependencies(const char* file_name, char** file_dependencies, int count) {
     pthread_mutex_lock(&mutex);
-
-    // Add file name to the list
     strcpy(file_names[file_counts], file_name);
-
-    // Add dependencies
     dep_counts[file_counts] = count;
     
     for (int i = 0; i < count; i++) {
@@ -76,7 +72,7 @@ int find_file_index(const char* file_name) {
             return i;
         }
     }
-    return -1; // Not found
+    return -1; //not found
 }
 
 void userCommand(struct tree_node* root) {
@@ -85,7 +81,7 @@ void userCommand(struct tree_node* root) {
     while (1) {
       printf("$ ");
       if (!fgets(command, sizeof(command), stdin)) {
-      command[strcspn(command, "\n")] = '\0';
+        command[strcspn(command, "\n")] = '\0';
           // break;
       }
 
@@ -117,7 +113,7 @@ void* start(void* arg) {
     struct thread_data* data = (struct thread_data*)arg;
 
     for (int i = data->start_index; i < data->end_index; i++) {
-      printf("Thread %d processing file: %s\n", data->id, data->paths[i]);
+      // printf("Thread %d processing file: %s\n", data->id, data->paths[i]);
 
       FILE* file = fopen(data->paths[i], "r");
       if (!file) {
@@ -132,9 +128,9 @@ void* start(void* arg) {
       //Parse file for dependencies
       while (fgets(line, sizeof(line), file)) {
         if (strstr(line, "#include")) {
-          printf("Thread %d extracting file: %s\n", data->id, data->paths[i]);
+          // printf("Thread %d extracting file: %s\n", data->id, data->paths[i]);
           char* dep = extract_dependency(line);
-          printf("Thread %d is done extracting file: %s\n", data->id, data->paths[i]);
+          // printf("Thread %d is done extracting file: %s\n", data->id, data->paths[i]);
 
           if (dep) {
               file_dependencies[count++] = strdup(dep);
@@ -146,7 +142,7 @@ void* start(void* arg) {
       //Insert file into tree
       pthread_mutex_lock(&mutex);
       root = insert(data->paths[i], root);
-      printf("File %s is being added to the tree\n", data->paths[i]);
+      // printf("File %s is being added to the tree\n", data->paths[i]);
       pthread_mutex_unlock(&mutex);
       add_file_dependencies(data->paths[i], file_dependencies, count);
     }
@@ -179,16 +175,10 @@ int main(int argc, char *argv[])
     int num_files = 0;
 
     while (fgets(buffer, sizeof(buffer), fp)) {
-     // Safely remove trailing newline
-    char* newline = strchr(buffer, '\n');
-    if (newline) {
-        *newline = '\0'; // Replace newline with null terminator
-    }
-
-    // Store the path
-    strcpy(paths[num_files], buffer);
-    printf("Path[%d]: %s\n", num_files, paths[num_files]); // Debugging
-    num_files++;
+      // Store the path
+      strcpy(paths[num_files], buffer);
+      // printf("Path[%d]: %s\n", num_files, paths[num_files]); // Debugging
+      num_files++;
     }
     pclose(fp);
 
