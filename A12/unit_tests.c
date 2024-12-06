@@ -1,9 +1,3 @@
-/*----------------------------------------------
- * Author: Khanh Ha Nguyen
- * Date: 12/5/2024
- * Description: implement the function memstats
- ---------------------------------------------*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
